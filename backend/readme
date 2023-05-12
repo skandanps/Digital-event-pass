@@ -1,0 +1,14 @@
+Building the image:
+
+docker build --build-arg PYTHONUNBUFFERED=1 --build-arg AUTH_PUBLIC_KEY=NeedPubKey --build-arg AWS_ACCESS_KEY=admin --build-arg AWS_SECRET_KEY=password --build-arg DB_URL=sqlite:///ase.db --build-arg LOG_HOST=0.0.0.0 --build-arg SERVER_PORT=9095 --build-arg SQLALCHEMY_TRACK_MODIFICATIONS=False           --build-arg TMP_LOC=/tmp/       -t ase-backend:v0.0.1 .
+
+creating docker network
+$ docker network create my-network
+
+running rabbit-mq
+$ docker run -d --name rabbitmq --rm -it --hostname my-rabit -p 15672:15672 -p 5672:5672 rabbitmq:3.11.2-management
+
+
+running the backend application.
+docker run --network my-network -p 9095:9095 -e DB_URL=sqlite:////app/ase.db -e LOG_HOST=0.0.0.0 -e PYTHONUNBUFFERED=1 ase-backend:v0.0.1
+
